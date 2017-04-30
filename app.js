@@ -29,7 +29,7 @@ app.get('/', function(req, res){
   res.render('index');
 });
 
-app.get('/:type/:id', function(req, res){
+app.get('/miner/:type/:id', function(req, res){
   if (!req.params || !req.params.type || !req.params.id) {
     res.send('invalid params')
     return;
@@ -45,8 +45,24 @@ app.get('/:type/:id', function(req, res){
   }
 
   request(host + params.id, function (error, response, body) {
-    console.log('error:', error)
     if (error) {
+      console.log('error:', error)
+      res.send(error)
+      return;
+    }
+    res.json(body)
+  });
+});
+
+app.get('/historical/:type', function(req, res){
+  if (!req.params || !req.params.type) {
+    res.send('invalid params')
+    return;
+  }
+
+  request(`https://api.cryptowat.ch/markets/poloniex/${req.params.type}/sparkline`, function (error, response, body) {
+    if (error) {
+      console.log('error:', error)
       res.send(error)
       return;
     }
