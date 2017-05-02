@@ -15,6 +15,8 @@
 </div>
 <div id="goldenStats"></div>
 <hr>
+<div id="goldenBalance"></div>
+<hr>
 <div id="goldenHen"></div>
 <hr>
 <div id="goldenEgg"></div>
@@ -85,7 +87,6 @@ function template(arr) {
 
   selectedCtx.innerHTML = `<table><tr><td>ZEC:${zecPrice}</td><td>Cap: ${zec.mktcap}</td><td>Supply: ${zec.supply}</td><td>Volume: ${zec.volume} (${zec.cap24hrChange}%)</td></tr></table>`
   tabCtx.innerHTML = `<table>${template}</table>`
-  console.log('tabCtx', tabCtx)
 }
 
 function calculateByType(type, data) {
@@ -95,9 +96,6 @@ function calculateByType(type, data) {
   var tabCtx = document.getElementById('goldenEgg')
   let typeMarket = marketCache.filter(i => (i.short === type.toUpperCase()))[0]
   let typePrice = parseFloat(typeMarket.price + '').toFixed(2)
-  console.log('miner data', data)
-  console.log('zec', typeMarket, typeMarket.price, typePrice)
-  // console.log('marketCache', marketCache)
 
   for (let i = 0; i < marketCache.length; i++) {
     let price = parseFloat(marketCache[i].price).toFixed(2)
@@ -107,13 +105,22 @@ function calculateByType(type, data) {
 
   marketCtx.innerHTML = `<table><tr><td>${type.toUpperCase()}:${typePrice}</td><td>Cap: ${typeMarket.mktcap}</td><td>Supply: ${typeMarket.supply}</td><td>Volume: ${typeMarket.volume} (${typeMarket.cap24hrChange}%)</td></tr></table>`
   tabCtx.innerHTML = `<table>${template}</table>`
-  statsCtx.innerHTML = `<table><tr><td>Address:</td><td>${data.address}</td></tr><tr><td>HashRate: ${data.hashRate}</td><td>Workers: ${Object.keys(data.workers).length}</td><td>Unpaid: ${data.unpaid/100000000}</td></tr></table>`
+  statsCtx.innerHTML = `<table><tr><td>Address:</td><td>${data.address}</td></tr><tr><td>HashRate: ${(data.avgHashrate / 1000).toFixed(2)} kH/s</td><td>Workers: ${Object.keys(data.workers).length}</td><td>Unpaid: ${data.unpaid/100000000}</td></tr></table>`
+}
+
+function calculateBalance(data) {
+  let template = ''
+  let type = document.getElementById('currency').value
+  var ctx = document.getElementById('goldenBalance')
+  let typeMarket = marketCache.filter(i => (i.short === type.toUpperCase()))[0]
+  let typePrice = parseFloat(typeMarket.price + '').toFixed(2)
+
+  ctx.innerHTML = `<table><tr><td>Balance:</td><td>${parseFloat(data.balance).toFixed(6)}</td></tr><tr><td>TotalSent: ${parseFloat(data.totalSent).toFixed(6)}</td><td>TotalRecv: ${parseFloat(data.totalRecv).toFixed(6)}</td></tr></table>`
 }
 
 function getByType() {
   let crncy = document.getElementById('currency').value
   let hash = document.getElementById('hash').value
-  console.log('getByType', crncy, hash)
 
   // '/miner/zec/t1fcu6h82MDhMF1wEhTHfAd8FvMK8NNdG9x'
   request(`miner/${crncy}/${hash}`)
@@ -130,17 +137,29 @@ function getByType() {
       console.log('err', err)
     })
 
-  // '/zecusd'
-  request(`historical/${crncy}usd`)
+  // TODO:
+  // // '/zecusd'
+  // request(`historical/${crncy}usd`)
+  //   .then(function(res){
+  //     //go format!!
+  //     var decoded = res
+  //       .replace(/\\n/g, '')
+  //       .replace(/\\\"/g, '\"')
+  //       .substr(1)
+  //     decoded = decoded.substring(0, decoded.length - 1)
+  //     var data = JSON.parse(decoded)
+  //     console.log('data res', data)
+  //   }, function(err) {
+  //     console.log('err', err)
+  //   })
+
+
+  // '/miner/zec/t1fcu6h82MDhMF1wEhTHfAd8FvMK8NNdG9x'
+  request(`https://api.zcha.in/v2/mainnet/accounts/${hash}`)
     .then(function(res){
-      //go format!!
-      var decoded = res
-        .replace(/\\n/g, '')
-        .replace(/\\\"/g, '\"')
-        .substr(1)
-      decoded = decoded.substring(0, decoded.length - 1)
-      var data = JSON.parse(decoded)
-      console.log('data res', data)
+      var data = JSON.parse(res)
+
+      calculateBalance(data)
     }, function(err) {
       console.log('err', err)
     })
