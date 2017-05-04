@@ -1,0 +1,110 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<!-- shared styles for all views -->
+<dom-module id="shared-styles">
+  <template>
+    <style>
+      :host {
+        --card-padding-side: 20px;
+      }
+
+      h1 {
+        margin: 16px 0;
+        color: #212121;
+        font-size: 22px;
+      }
+
+      h3 {
+        color: var(--theme-secondary-font);
+        font-size: 21pt;
+        font-weight: 300;
+        margin: 2px 0;
+      }
+
+      h4 {
+        color: var(--theme-primary-font);
+        font-size: 18px;
+        font-weight: 500;
+        margin: auto 0;
+      }
+
+      h6 {
+        margin: auto;
+        color: #c1c1c1;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .card {
+        background-color: #fff;
+        border: 1px solid var(--theme-line-color);
+        border-radius: 4px;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        color: #757575;
+        display: flex;
+        flex-direction: column;
+        margin: 12px;
+        overflow: hidden;
+        padding: 0px;
+      }
+
+      .card-header {
+        border-bottom: 1px solid var(--theme-line-color);
+        display: flex;
+        height: 54px;
+        padding: 0px var(--card-padding-side);
+      }
+
+      .card-body {
+        padding: 0px;
+      }
+
+      .card-footer {
+        border-top: 1px solid var(--theme-line-color);
+        display: flex;
+        height: 54px;
+        text-align: center;
+      }
+
+      .items {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .item {
+        display: flex;
+      }
+
+      .item-status {
+        background: var(--theme-info);
+        flex: 1 1 2%;
+        width: 2%;
+      }
+
+      .item-status.active {
+        background: var(--theme-success);
+      }
+
+      .item-body,
+      .item-action {
+        flex: 1 1 49%;
+        width: 49%;
+        padding: 0 var(--card-padding-side) 10px;
+      }
+    </style>
+  </template>
+</dom-module>

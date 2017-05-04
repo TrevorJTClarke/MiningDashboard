@@ -1,0 +1,23 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="tc-settings">
+  <!-- Defines the element's style and local DOM -->
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+      }
+    </style>
+
+    <h1>TODO: Settings!</h1>
+  </template>
+  <!-- Creates the element's prototype and registers it -->
+  <script>
+    class TcSettings extends Polymer.Element {
+      static get is() { return 'tc-settings'; }
+    }
+    customElements.define(TcSettings.is, TcSettings);
+  </script>
+</dom-module>

@@ -1,0 +1,22 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="tc-profit">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+      }
+    </style>
+    <h1>TODO: Profit!</h1>
+  </template>
+
+  <script>
+    class TcProfit extends Polymer.Element {
+      static get is() { return 'tc-profit'; }
+    }
+
+    window.customElements.define(TcProfit.is, TcProfit);
+  </script>
+</dom-module>
